@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your PayPal Checkout Page</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #eaeaea; /* Light gray background color */
+        font-family: Arial, sans-serif;
+      }
+
+      .form-container {
+        width: 400px;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-bottom: 10px;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="submit"] {
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      /* Adjust styles for the PayPal button */
+      .paypal-button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      /* Custom styling for the PayPal button */
+      .paypal-button {
+        background-color: #009688; /* Turquoise */
+        color: #fff;
+        padding: 15px 40px;
+        font-size: 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .paypal-button:hover {
+        background-color: #00796b; /* Darker Turquoise on hover */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h1>Make pyament</h1>
+        <!-- Replace this with your PayPal button code -->
+        <div class="paypal-button-container">
+          <!-- PayPal button code goes here -->
+          <!-- Example placeholder for PayPal button -->
+          <form
+            action="https://www.paypal.com/cgi-bin/webscr"
+            method="post"
+            target="_top"
+          >
+            <input type="hidden" name="cmd" value="_s-xclick" />
+            <input type="hidden" name="hosted_button_id" value="XXXXXXXXX" />
+            <img
+              alt=""
+              border="0"
+              src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"
+              width="1"
+              height="1"
+            />
+          </form>
+        </div>
+      </form>
+      {{ form.render }}
+      <!-- Keep the form.render here -->
+    </div>
+  </body>
+</html>

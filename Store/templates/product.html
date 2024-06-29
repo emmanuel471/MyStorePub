@@ -1,0 +1,84 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Header-->
+<header class="bg-success py-3">
+  <div class="container px-2 px-lg-3 my-3">
+    <div class="text-center text-white">
+      <div class="w3-container w3-center w3-animate-zoom">
+        <h1><i>View Product</i></h1>
+        <p class="lead fw-normal text-white-25 mb-0">
+          Welcome to GearFarmEssentials
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<br />
+<div class="container" align="center">
+  <div class="card mb-5" style="max-width: 840px">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img
+          src="{{ product.image.url }}"
+          class="img-fluid rounded-start"
+          alt="..."
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+          <a href="{% url 'home' %}" class="btn btn-success">Home</a>
+
+          <button
+            type="button"
+            value="{{ product.id }}"
+            class="btn btn-success"
+            id="add-cart"
+          >
+            Add to Cart
+          </button>
+          <br />
+          <br />
+          <div class="row justify-content-center">
+            <div class="col-md-2">Quantity</div>
+            <div class="col-md-2">
+              <select class="form-select form-select-sm" id="qty-cart">
+                <option value="1">1</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+
+<script>
+  $(document).on("click", "#add-cart", function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: '{% url 'cart_add' %}',
+      data: {
+        product_id: $("#add-cart").val(),
+        procuct_qnt: $('#qnt-cart option:selected').text(),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        action: 'post'
+      },
+      success: function (json) {
+        document.getElementById("cart_quantity").
+        textContent = json.qnt;
+        //console.log(json);
+      },
+      error: function (xhr, errmsg, err) {
+        // console.log(xhr);
+        // console.log(errmsg);
+        // console.log(err);
+      }
+    });
+  });
+</script>
+
+{% endblock %}

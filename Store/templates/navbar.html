@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hamburger Menu Example</title>
+<style>
+  /* Styles for the hamburger button */
+  .hamburger-menu {
+    display: inline-block;
+    cursor: pointer;
+    width: 30px;
+    height: 20px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1001; /* Ensure hamburger is above the navbar */
+  }
+
+  .hamburger-line {
+    width: 100%;
+    height: 2px;
+    background-color: #4AA52A;
+    margin: 4px 0;
+    text-decoration: none;
+    transition: transform 0.6s ease;
+  }
+
+  .menu-item a {
+    text-decoration: none; /* Remove underline from links */
+    color: inherit; /* Use the default text color */
+  }
+
+  /* Styles for the active state of the hamburger lines */
+  .active .hamburger-line:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+  }
+
+  .active .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .active .hamburger-line:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
+  }
+
+  /* Styles for the navigation menu */
+  .nav-menu {
+    position: absolute;
+    top: 60px; /* Adjust the top position as needed */
+    left: -100%;
+    width: 150px; /* Adjust the width as needed */
+    height: 70vh;
+    background-color: #6ff588; 
+    transition: left 1.0s ease;
+    z-index: 1000; /* Ensure menu is below hamburger */
+  }
+
+  .nav-menu.active {
+    left: 0;
+  }
+
+  /* Styles for the menu items */
+  .menu-item {
+    padding: 15px;
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    text-decoration: none;
+    border-bottom: 1px solid #555;
+  }
+
+  .left-justify {
+    text-align: left;
+  }
+
+  /* Styles for the product display */
+  .product-display {
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    background-color: #C0DBB7;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+    transition: transform 1.0s ease-in-out;
+    width: 250px; /* Adjust width as needed */
+    height:0px;
+  }
+
+  .product-display.active {
+    transform: translateX(0); /* Slide in from the right when active */
+  }
+
+  .product-display img {
+    max-width: 100px;
+    max-height: 100px;
+    margin-bottom: 10px;
+    align: center;
+  }
+  
+</style>
+</head>
+<body>
+
+<!-- Hamburger menu button -->
+<div class="navbar navbar-expand-lg navbar-success bg-light">
+  <div class="container px-4 px-lg-5">
+    <div class="hamburger-menu" onclick="toggleMenu()">
+      <div class="hamburger-line"></div>
+      <div class="hamburger-line"></div>
+      <div class="hamburger-line"></div>
+    </div>
+
+    <!-- Navigation menu -->
+    <div class="nav-menu" id="navMenu">
+      <div class="menu-item"><a href="{%url 'home' %}"><i>Home</i></a></div>
+      <div class="menu-item"><a href="{% url 'about' %}"><i >About</a></i></div>
+      <div class="menu-item"> <a href="{% url 'message' %}"><i>Message us</a></i> </div>
+      
+      {% if user.is_authenticated %}
+      <div class="menu-item"><a href="{% url 'logout' %}"><i>Logout</a></i></div>
+      <div class="menu-item"><a href="{% url 'update_user' %}"><i>Update User</i></a></div>
+      <div class="menu-item"><a href="{% url 'update_info' %}"><i>Update Info</i></a></div>
+      <div class="menu-item"><a href="{% url 'submit_testimonial' %}"><i>Give testimony</i></a></div>
+          {% if user.is_superuser %}
+          <div class="menu-item"><a href="{% url 'shipped_dash' %}"><i>Shipped items</a></i></div>
+          <div class="menu-item"><a href="{% url 'not_shipped_dash' %}"><i>Unshipped items</i></a></div>
+          {% endif %}
+      {% else %}
+      <div class="menu-item"><a href="{% url 'login' %}"><i >Login</a></i></div>
+      <div class="menu-item"><a href="{% url 'register' %}"><i >Register</a></i></div>
+      {% endif %}
+    </div>
+
+
+    <!-- Navbar content -->
+    <a  class="navbar-brand" href="{% url 'home' %}"><strong><i id="name" style="color: green">GearFarmEssentials</i></strong></a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+        {% if user.is_authenticated %}
+        <li id="user" class="nav-item"><a class="nav-link" href="{% url 'user_profile' %}"><i style="color: green"><strong>Hi {{ user.first_name }}, welcome!</strong></a></i></li>
+        <br/>
+        {% endif %}
+      </ul>
+      <form class="d-flex" role="search" method="POST" style="margin-right: 10px;" onsubmit="toggleProduct(event)"> {% csrf_token %}
+        <button class="btn btn-outline-success" type="submit" name="search">Quick nav...</button>
+      </form>
+      <form class="d-flex" style="margin-left: 10px"> {% csrf_token %}
+        <a href ="{% url 'cart_summary' %}" class="btn btn-outline-success"><i class="bi-cart-fill me-1"></i>Cart<span class="badge bg-success text-white ms-1 rounded-pill" id="cart_quantity">{{cart|length}}</span></a>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  function toggleMenu() {
+    var navMenu = document.getElementById('navMenu');
+    navMenu.classList.toggle('active');
+  }
+
+  function toggleProduct(event) {
+    event.preventDefault(); // Prevent form submission
+    var productDisplay = document.getElementById('productDisplay');
+    productDisplay.classList.toggle('active'); // Toggle active class for sliding effect
+  }
+</script>
+
+</body>
+</html>

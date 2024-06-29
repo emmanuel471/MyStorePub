@@ -1,0 +1,132 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Header-->
+<header class="bg-success py-3">
+  <div class="container px-2 px-lg-3 my-3">
+    <div class="text-center text-white">
+      <div class="w3-container w3-center w3-animate-zoom">
+        <h1><i>Homepage</i></h1>
+        <p class="lead fw-normal text-white-25 mb-0">
+          Welcome to GearFarmEssentials
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  {% for x in video %}
+  <h3 class="text-center text-success mb-0"><i>{{ x.caption }}</i></h3>
+
+  <style>
+    .video-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-image: url("/media/agri.jpg");
+      background-size: cover;
+      background-position: center;
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .video-container video {
+      max-width: 70%;
+      max-height: 70%;
+      object-fit: contain;
+    }
+
+
+  </style>
+
+  <div class="video-container">
+    <video controls>
+      <source src="{{ x.video.url }}" type="video/mp4" />
+    </video>
+  </div>
+
+  {% endfor %}
+</div>
+<br />
+<!-- Section-->
+<section class="py-5">
+  <div class="container px-4 px-lg-5 mt-5">
+    <div style="background-color: #156BD9; color: #ffffff; height: 100px; width: 100%; justify-content: center; align-items: center; text-align: center;">
+      <h1 align="center"><i>Shop now!!</i></h1>
+      <p align="center">Get amazing deals from GearFarmEssentials</p>
+        <br/>
+      </div>
+      <br/>
+    <div
+      class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
+    >
+      {% for product in products %}
+      <div class="col mb-5">
+        <div
+          class="card h-100"
+          style="background-color: rgba(255, 255, 255, 0.8)"
+        >
+          <!-- Product image-->
+          <img class="w3-animate-top" src="{{ product.image.url }}" alt="..." />
+          <!-- Product details-->
+          <div class="card-body p-4">
+            <div class="text-center">
+              <!-- Product name-->
+              <h5 class="fw-bolder">{{ product.name }}</h5>
+              <!-- Product price-->
+              ${{ product.price }}
+            </div>
+          </div>
+          <!-- Product actions-->
+          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <div class="text-center">
+              <a
+                class="btn btn-outline-success mt-auto"
+                href="{% url 'product' product.id %}"
+                >View product</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+
+      <div class="product-display" id="productDisplay">
+        {{searched}}
+        {% for product in products %}
+        <br/>
+        <br/>
+        <a href="{% url 'product' product.id %}" class="text-decoration-none">
+          <div class="col mb-1">
+            <div class="card h-100">
+              <!-- Product image -->
+              <!-- Product details -->
+              <div class="card-body p-0">
+                <div class="text-center">
+                  <!-- Product name -->
+                  <h5 class="fw-bolder">{{ product.name }}</h5>
+                  <!-- Product price -->
+                  ${{ product.price }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        
+        {% endfor %}
+
+    </div>
+  </div>
+
+
+  <br/><br/>
+  <a href="{% url 'testimonials' %}"  style="text-decoration: none;">
+    <div style="background-color: #156BD9; color: #ffffff; height: 70px; width: 100%; justify-content: center; align-items: center; text-align: center;">
+      <h3><strong>Go to testimonials  </strong></h3>
+      <h5>...See what our customers are saying...</h5>
+  </div>
+</a>
+</section>
+
+{% endblock %}

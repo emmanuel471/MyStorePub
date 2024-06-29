@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block content %}
+    <header class="bg-success py-3">
+      <div class="container px-2 px-lg-3 my-3">
+        <div class="text-center text-white">
+          <div class="w3-container w3-center w3-animate-zoom">
+            <h1><i>Cart</i></h1>
+            <p class="lead fw-normal text-white-25 mb-0">
+              Welcome to GearFarmEssentials
+            </p>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Section-->
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container"> 
+      <br/>
+       <br/> 
+      <a href="{% url 'order_history' %}" class="btn btn-success">View order history</a>
+      <br/>
+    {%if cart_products %}  
+      {% for product in cart_products %}
+     
+      <div class="card mb-5 mx-auto" style="max-width: 840px">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img
+              src="{{ product.image.url }}"
+              class="img-fluid rounded-start"
+              alt="..."
+            />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title"><strong>{{ product.name }}</strong></h5>
+              <h5 class="card-title"><strong>${{ product.price }}</strong></h5>
+              <p class="card-text">{{ product.description }}</p>
+              <a href="{% url 'home' %}" class="btn btn-success">Home</a>
+              <button type="button" data-index="{{product.id}}" class="btn btn-danger delete-product">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+         
+
+      {% endfor %} 
+      <h3>Total: ${{ totals }}</h3>
+      <a href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>
+      <br/><br/>
+      {% else%}
+      Empty Cart
+      {% endif %} 
+    </div>
+
+
+    <script>
+
+      $(document).on('click', '.delete-product', function(e){
+        e.preventDefault();
+        $.ajax({
+        type: 'POST',
+        url: '{% url 'cart_delete' %}',
+        data: {
+          product_id: $(this).data('index'),
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          action: 'post'
+        },
+        success: function(json){
+            location.reload();
+        },
+    
+        error: function(xhr, errmsg, err){
+    
+        }
+    
+    
+        });
+    
+    })
+    </script>
+{% endblock %}

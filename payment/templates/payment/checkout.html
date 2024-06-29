@@ -1,0 +1,76 @@
+{% extends 'base.html' %} 
+{% block content %}
+<header class="bg-success py-3">
+  <div class="container px-2 px-lg-3 my-3">
+    <div class="text-center text-white">
+      <div class="w3-container w3-center w3-animate-zoom">
+        <h1>
+          <i>Checkout</i>
+        </h1>
+        <p class="lead fw-normal text-white-25 mb-0">
+          Welcome to GearFarmEssentials
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Section-->
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <h5 class="card-header">Order summary</h5>
+        <div class="card-body">
+          {% for product in cart_products %}
+            {{ product.name }}: ${{ product.price }}<br/>
+          {% endfor %}
+          <br />
+          <strong>Total: ${{ totals }}</strong>
+          <br/>
+        </div>
+      </div>
+      <br/>
+
+      <input type="checkbox" id="showShippingForm">
+      <label for="showShippingForm">Ship item(s) to your address</label>
+      <br/>
+      <div id="shippingFormContainer" style="display: none;">
+        <div class="card">
+          <div class="card-header">
+            Shipping Information
+          </div>
+          <div class="card-body">
+
+            <form method="POST" action="{% url 'billing_info' %}">
+              {% csrf_token %}
+            {{ shipping_form.as_p }}
+          </div>
+        </div>
+      </div>
+      
+      <br/><br/>
+      
+      <br/>
+      <button type="submit" class="btn btn-success">Proceed</button>
+    </form>
+    <a href="{% url 'home' %}" class="btn btn-success">Home</a>
+    </div>
+  </div>
+</div>
+<br />
+<script>
+  const checkbox = document.getElementById('showShippingForm');
+  const shippingFormContainer = document.getElementById('shippingFormContainer');
+
+  checkbox.addEventListener('change', function() {
+    if (this.checked) {
+      shippingFormContainer.style.display = 'block';
+    } else {
+      shippingFormContainer.style.display = 'none';
+    }
+  });
+</script>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Header-->
+<header class="bg-success py-3">
+  <div class="container px-2 px-lg-3 my-3">
+    <div class="text-center text-white">
+      <div class="w3-container w3-center w3-animate-zoom">
+        <h1><i>Login</i></h1>
+        <p class="lead fw-normal text-white-25 mb-0">
+          Welcome to GearFarmEssentials
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <br /><br />
+      <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            placeholder="Enter your username"
+          />
+        </div>
+        <div class="mb-3">
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            placeholder="Enter your password"
+          />
+        </div>
+        <div class="mb-3 form-check"></div>
+        <div align="center">
+          <button type="submit" class="btn btn-success">Login</button>
+        </div>
+         <br/>
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <a href="{% url 'password_reset' %}" style="padding: 10px 20px; background-color: #3880DC; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease; text-decoration: none;">
+              Fogort Password
+          </a>
+      </div>
+
+      </form>
+
+      <br />
+    </div>
+  </div>
+</div>
+
+{% endblock %}

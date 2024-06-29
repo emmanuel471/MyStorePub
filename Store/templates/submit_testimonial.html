@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<header class="bg-success py-3">
+    <div class="container px-2 px-lg-3 my-3">
+      <div class="text-center text-white">
+        <div class="w3-container w3-center w3-animate-zoom">
+          <h1><i>View your profile</i></h1>
+          <p class="lead fw-normal text-white-25 mb-0">
+            Please give us feedback about ourservice...
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 600px; border-radius: 10px;">
+      <h2 class="text-center mb-4">Submit Your Testimonial</h2>
+      <form method="post" >
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="d-grid">
+          <button type="submit" class="btn btn-success btn-block">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Invoice</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .invoice-box { width: 100%; margin: auto; padding: 30px; border: 1px solid #eee; }
+        .invoice-title { font-size: 24px; font-weight: bold; }
+        .invoice-details { margin-top: 20px; }
+        .total { font-size: 18px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <h1 class="invoice-title">Invoice</h1>
+        <p>Thank you for your purchase, {{ user.first_name }}!</p>
+        <div class="invoice-details">
+            <h2>Order Summary</h2>
+            <ul>
+                {% for item in items %}
+                <li>{{ item.name }} - Quantity: {{ item.quantity }} - Price: {{ item.price }}</li>
+                {% endfor %}
+            </ul>
+            <p class="total">Total Amount Paid: {{ total }}</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Header -->
+<header class="bg-success py-3">
+  <div class="container px-2 px-lg-3 my-3">
+    <div class="text-center text-white">
+      <div class="w3-container w3-center w3-animate-zoom">
+        <h1><i>See what our customers are saying...</i></h1>
+        <p class="lead fw-normal text-white-25 mb-0">
+          Welcome to GearFarmEssentials
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<br/><br/>
+<!-- Testimonial Slider -->
+<div class="cards">
+  <br/><br/>
+  <div id="testimonialSlider" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+    <div class="carousel-inner">
+      {% for testimonial in testimonials %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <div class="d-flex justify-content-center">
+          <div class="testimonial">
+            <p>"{{ testimonial.content }}"</p>
+            <h5>- {{ testimonial.name }}</h5>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <button class="btn btn-success manual-control-prev position-absolute top-50 start-0 translate-middle-y" onclick="prevSlide()">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="btn btn-success manual-control-next position-absolute top-50 end-0 translate-middle-y" onclick="nextSlide()">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<br/><br>
+
+<!-- Add some CSS for styling the testimonials -->
+<style>
+  .testimonial {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 6px 14px rgba(0.3, 0.3, 0.3, 0.6);
+    max-width: 600px;
+    text-align: center;
+  }
+  .testimonial p {
+    font-size: 1.2rem;
+    font-style: italic;
+  }
+  .testimonial h5 {
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+  }
+  .manual-control-prev, .manual-control-next {
+    width: 50px;
+    height: 50px;
+    border: none;
+    background-color: rgba(0,0,0,0.5);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+</style>
+
+<!-- JavaScript for Manual Controls -->
+<script>
+  function prevSlide() {
+    var carousel = new bootstrap.Carousel(document.getElementById('testimonialSlider'));
+    carousel.prev();
+  }
+  function nextSlide() {
+    var carousel = new bootstrap.Carousel(document.getElementById('testimonialSlider'));
+    carousel.next();
+  }
+</script>
+
+<br/><br/><br/>
+{% endblock %}
