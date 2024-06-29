@@ -2,6 +2,9 @@ from pathlib import Path
 import os
 import mimetypes
 from dotenv import load_dotenv
+import django_heroku
+
+
 
 mimetypes.add_type("application/javascript", ".js", True)
 
@@ -148,3 +151,7 @@ EMAIL_USE_TLS = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PAYPAL_RECEIVER_EMAIL = 'emmaCompany@gmail.com'
 PAYPAL_TEST = True
+
+
+django_heroku.settings(locals())
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
